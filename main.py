@@ -17,9 +17,10 @@ print("sortie :", laby_sortie)
 #création dicojeu
 dicoJeu= {}
 dicoJeu["mode"] = EXPLORATION
+dicoJeu["traversé"] = []
 dicoJeu["entre"] = laby_entre
 dicoJeu["sortie"] = laby_sortie
-dicoJeu["epaisseur"] = 50
+dicoJeu["epaisseur"] = 30
 dicoJeu["depart"] = [-400, 200]
 dicoJeu["laby_tableau"] = laby_tableau
 dicoJeu["chemin"] = []
