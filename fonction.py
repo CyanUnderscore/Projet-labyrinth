@@ -1,5 +1,6 @@
 import turtle
-from time import sleep
+
+
 def afficheTextuel(laby_tableau, dicoJeu):
     for index_liste in range(len(laby_tableau)):
         ligne = ""
@@ -130,7 +131,6 @@ def deplacement(x, y, dicoJeu, arret_premature=False):
     elif dicoJeu["sortie"]==[pixel_pos[1],pixel_pos[0]]:
         turtle.color("green")
         turtle.goto(turtle.xcor()+x*dicoJeu["epaisseur"], turtle.ycor()+y*dicoJeu["epaisseur"])
-        print("victoire")
 
     elif typeCellule(pixel_pos[1],pixel_pos[0], dicoJeu)=="impasse":
         turtle.color("orange")
@@ -164,7 +164,6 @@ def haut(dicoJeu):
 
 
 def suivreChemin(chemin, dicoJeu):
-    print(chemin)
     continuer = True
     for i in chemin:
         if continuer:
@@ -229,7 +228,6 @@ def emprunte_passage(passage, dicoJeu, chemin):
        
 
 def chercher_carrefour(dicoJeu, cell_turtle, dernier_cell, chemins):
-    print("NOUVEAU CARROUf //////////////////////////////////")
     cell_carrefour=get_turtle_cell(dicoJeu)
     if list(cell_carrefour) in dicoJeu["carrefour"]:
         return False, []
@@ -239,10 +237,9 @@ def chercher_carrefour(dicoJeu, cell_turtle, dernier_cell, chemins):
         cell_turtle = tuple(cell_carrefour)
         emprunte_passage(passage, dicoJeu, chemin_branche)
         print("chemin branche ", chemin_branche)
-        dernier_cell = tuple(cell_carrefour)
-        dicoJeu["traversé"].append(dernier_cell)
+        dernier_cell = tuple(cell_carrefour)    
         cell_turtle = get_turtle_cell(dicoJeu)
-        sleep(1)
+        
         gagnant , chemin_branche_gagnante = test_branche(dicoJeu, cell_turtle, dernier_cell, chemin_branche)
         if gagnant == True:
             return True, chemin_branche_gagnante
@@ -251,21 +248,17 @@ def chercher_carrefour(dicoJeu, cell_turtle, dernier_cell, chemins):
             
 def test_branche(dicoJeu, cell_turtle, dernier_cell, chemin_branche) -> (bool, list[str]):
     print(typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu))
-    print("debut brancge *---------------------------")
     while typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) != "carrefour" and typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) != "sortie" and typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) != "impasse":
         if typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) == "entre":
             passage = passage_possible(dicoJeu, cell_turtle, dernier_cell, True)[0] # si passage standart alors 1 elem
-            dernier_cell = tuple(cell_turtle)            
-            dicoJeu["traversé"].append(dernier_cell)
+            dernier_cell = tuple(cell_turtle)                    
             emprunte_passage(passage, dicoJeu, chemin_branche)
             cell_turtle = get_turtle_cell(dicoJeu)
         else:
             passage = passage_possible(dicoJeu, cell_turtle, dernier_cell, False)[0] # si passage standart alors 1 elem
-            dernier_cell = tuple(cell_turtle)
-            dicoJeu["traversé"].append(dernier_cell)
+            dernier_cell = tuple(cell_turtle)      
             emprunte_passage(passage, dicoJeu, chemin_branche)
             cell_turtle = get_turtle_cell(dicoJeu)
-            sleep(0.0)
 
     if typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) == "sortie":
         return True, chemin_branche
@@ -274,9 +267,7 @@ def test_branche(dicoJeu, cell_turtle, dernier_cell, chemin_branche) -> (bool, l
         inverserChemin(chemin_branche, dicoJeu)
         return False, []
 
-    elif typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) == "carrefour":# and not cell_turtle in dicoJeu["carrefour"]:
-        print("passage_possible carrefour", passage_possible(dicoJeu, cell_turtle, dernier_cell, False))
-        sleep(0.0)
+    elif typeCellule(cell_turtle[1], cell_turtle[0], dicoJeu) == "carrefour":
         gagnant , chemin_carrefour = chercher_carrefour(dicoJeu, cell_turtle, dernier_cell, passage_possible(dicoJeu, cell_turtle, dernier_cell, False))
         if gagnant == True:
             chemin_branche+=chemin_carrefour
@@ -290,11 +281,13 @@ def test_branche(dicoJeu, cell_turtle, dernier_cell, chemin_branche) -> (bool, l
 def explorer(dicoJeu):
     cell_turtle = get_turtle_cell(dicoJeu)
     dernier_cell = cell_turtle
-    arbre_de_depacement = []
-    chemin = list(dicoJeu["chemin"])
-    i=0
     gagné, chemin_victoir = test_branche(dicoJeu, cell_turtle, dernier_cell, [])
-    print(chemin_victoir)
-    inverserChemin(chemin_victoir, dicoJeu)
-    suivreChemin(chemin_victoir, dicoJeu)
+    if gagné:
+        print(chemin_victoir)
+        print("Vérificatouion du chemin ")
+        inverserChemin(chemin_victoir, dicoJeu)
+        suivreChemin(chemin_victoir, dicoJeu)
+        print("victoir")
+    else:
+        print("la tortue ne peux pas atteindre la sortie")
 
