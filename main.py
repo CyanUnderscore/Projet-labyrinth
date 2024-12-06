@@ -1,8 +1,17 @@
-from lireLaby import labyFromFile
-from fonction import (explorer, haut, bas, gauche, droite ,suivreChemin, inverserChemin,afficheTextuel,deplacement, affichageGraphique, pixel2cell, testClic, cell2pixel, est_mur, typeCellule) 
 import turtle
+import os
+
+from lireLaby import labyFromFile
+from affichage import afficheTextuel, affichageGraphique
+from conversions_et_coordonées import pixel2cell, cell2pixel
+from exploration import suivreChemin, inverserChemin, explorer
+from autres_fonction import testClic
+from deplacements import *
+
+
 #1.1
-nom_du_fichier = "./labys/"+input("entrer le nom du fichier contennant le labyrinthe : ")+".laby"
+chemin_fichier = os.path.dirname(__file__)
+nom_du_fichier = chemin_fichier+"/labys/"+input("entrer le nom du fichier contennant le labyrinthe : ")+".laby"
 laby_tableau, laby_entre, laby_sortie = labyFromFile(nom_du_fichier)
 
 EXPLORATION = "explorztion"
