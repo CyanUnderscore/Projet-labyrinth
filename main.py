@@ -2,7 +2,7 @@ from lireLaby import labyFromFile
 from fonction import (explorer, haut, bas, gauche, droite ,suivreChemin, inverserChemin,afficheTextuel,deplacement, affichageGraphique, pixel2cell, testClic, cell2pixel, est_mur, typeCellule) 
 import turtle
 #1.1
-nom_du_fichier = "laby2024/labys/"+input("entrer le nom du fichier contennant le labyrinthe : ")+".laby"
+nom_du_fichier = "./labys/"+input("entrer le nom du fichier contennant le labyrinthe : ")+".laby"
 laby_tableau, laby_entre, laby_sortie = labyFromFile(nom_du_fichier)
 
 EXPLORATION = "explorztion"
@@ -20,7 +20,7 @@ dicoJeu["mode"] = EXPLORATION
 dicoJeu["traversé"] = []
 dicoJeu["entre"] = laby_entre
 dicoJeu["sortie"] = laby_sortie
-dicoJeu["epaisseur"] = 30
+dicoJeu["epaisseur"] = 20
 dicoJeu["depart"] = [-400, 200]
 dicoJeu["laby_tableau"] = laby_tableau
 dicoJeu["chemin"] = []
@@ -34,6 +34,9 @@ dicoJeu["curseur"] = curseur
 affichageGraphique(laby_tableau, dicoJeu)
 print(pixel2cell(-153, -10, dicoJeu))
 
+'''
+LES FONCTION SUIVANTE ON POUR UNIQUE BUT D'APPELER LES VRAIS FONCTION EN LEUR FOURNISSANT DES PARAMÉTRE MANQUANT
+'''
 def testClicForOnScreenClick(x, y): #si on a pas cette fonction on ne peut pas passer dicoJeu a testClic() dans onscreenclick()
     testClic(x, y, dicoJeu)
 
